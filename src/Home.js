@@ -60,7 +60,6 @@ function Home() {
             appearAnimation="accordionVertical"
             enterAnimation="fade"
             leaveAnimation="fade"
-            leaveAnimation="elevator"
             delay={200}
             staggerDelayBy={150}
           >
