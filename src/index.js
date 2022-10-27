@@ -6,31 +6,22 @@ import * as serviceWorker from "./serviceWorker";
 import { StateProvider } from "./StateProvider";
 import reducer, { initialState } from "./reducer";
 
-import init from '@three0dev/js-sdk';
+import { init } from '@three0dev/js-sdk';
 import { env } from "./env"
-import { createRoot } from 'react-dom/client'
 
 init(env.config)
   .then(() => {
-    const container = document.querySelector("#root")
-    const root = createRoot(container)
-    root.render(
+    ReactDOM.render(
       <React.StrictMode>
         <StateProvider initialState={initialState} reducer={reducer}>
           <App />
         </StateProvider>
-      </React.StrictMode>
-    )
+      </React.StrictMode>,
+      document.getElementById("root")
+    );
   })
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <StateProvider initialState={initialState} reducer={reducer}>
-//       <App />
-//     </StateProvider>
-//   </React.StrictMode>,
-//   document.getElementById("root")
-// );
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

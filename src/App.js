@@ -7,7 +7,6 @@ import Checkout from "./Checkout";
 import Login from "./Login";
 import { useStateValue } from "./StateProvider";
 import { auth } from "./firebase";
-import { isLoggedIn } from "@three0dev/js-sdk/auth";
 import { ToastProvider } from "react-toast-notifications";
 import SearchProducts from "./SearchProducts";
 import Payment from "./Payment";
