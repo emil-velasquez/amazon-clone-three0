@@ -5,5 +5,6 @@ export const env = {
     "chainType": "NEAR_TESTNET"
   },
   usersDB: "/orbitdb/zdpuAm2QNGcdGWKBk258SbCsZ2y8VtN29cDhJTAC4hgxD7C8S/users",
-  productsDB: "/orbitdb/zdpuAoTaE3vDKm7Aw2XmGNtndvLJ8aqp9m8gbzXctzW29XZ23/product"
+  productsDB: "/orbitdb/zdpuAoTaE3vDKm7Aw2XmGNtndvLJ8aqp9m8gbzXctzW29XZ23/product",
+  ordersDB: "/orbitdb/zdpuAxhxxV5kjEFFEgEfmtf3WWHXHr9wuxre1LgQkTVLQcLQi/orders"
 }
