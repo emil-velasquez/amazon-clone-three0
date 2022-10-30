@@ -9,15 +9,15 @@ import { getTotalItems } from "./reducer";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
+import { Auth } from "@three0dev/js-sdk";
+
 function Header() {
   const history = useHistory();
   const [{ basket, user }] = useStateValue();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const login = () => {
-    if (user) {
-      auth.signOut();
-    }
+  const logout = () => {
+    Auth.logout();
   };
 
   const handleSearch = (e) => {
@@ -55,13 +55,13 @@ function Header() {
       </form>
 
       <div className="header__nav">
-        <Link to={!user && "/login"} className="header__link">
-          <div onClick={login} className="header__option">
+        <Link to={!Auth.isLoggedIn() && "/login"} className="header__link">
+          <div onClick={Auth.isLoggedIn() && logout} className="header__option">
             <span className="header__optionLineOne">
-              Hello {user?.email ? user?.email.split("@")[0] : "Guest"}
+              Hello {Auth.isLoggedIn() ? Auth.getAccountId().split(".")[0] : "Guest"}
             </span>
             <span className="header__optionLineTwo">
-              {user ? "Sign Out" : "Sign In"}
+              {Auth.isLoggedIn() ? "Sign Out" : "Sign In"}
             </span>
           </div>
         </Link>
