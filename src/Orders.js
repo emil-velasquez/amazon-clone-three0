@@ -44,7 +44,7 @@ function Orders() {
       const usersOrders = orderDocstore.where((order) => order.uid === user._id);
       setOrders(
         usersOrders.map((order) => ({
-          id: order._id,
+          id: order.paymentId,
           data: {
             created: order.created,
             basket: order.basket,

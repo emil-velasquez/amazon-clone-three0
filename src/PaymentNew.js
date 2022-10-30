@@ -9,6 +9,8 @@ import CurrencyFormat from "react-currency-format";
 import axios from "./axios";
 import { db } from "./firebase";
 import { Button, CircularProgress } from "@material-ui/core";
+import { Database } from "@three0dev/js-sdk"
+import { env } from "./env"
 
 import PaymentCard from "react-payment-card-component";
 
@@ -55,15 +57,17 @@ function PaymentNew() {
         },
       })
       .then(({ paymentIntent }) => {
-        db.collection("users")
-          .doc(user?.uid)
-          .collection("orders")
-          .doc(paymentIntent.id)
-          .set({
-            basket: basket,
-            amount: paymentIntent.amount,
-            created: paymentIntent.created,
-          });
+        // db.collection("users")
+        //   .doc(user?.uid)
+        //   .collection("orders")
+        //   .doc(paymentIntent.id)
+        //   .set({
+        //     basket: basket,
+        //     amount: paymentIntent.amount,
+        //     created: paymentIntent.created,
+        //   });
+
+        createFinishedOrder(paymentIntent);
 
         setSucceeded(true);
         setError(null);
@@ -76,6 +80,18 @@ function PaymentNew() {
         history.replace("/orders");
       });
   };
+
+  const createFinishedOrder = async (paymentIntent) => {
+    const orderDocstore = await Database.DocStore(env.ordersDB);
+    const orderPayload = {
+      uid: user._id,
+      paymentId: paymentIntent.id,
+      basket: basket,
+      amount: paymentIntent.amount,
+      created: paymentIntent.created
+    }
+    await orderDocstore.add(orderPayload);
+  }
 
   const handleChange = (e) => {
     console.log(("Onchange  ", e));
