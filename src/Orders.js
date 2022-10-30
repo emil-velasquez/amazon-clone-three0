@@ -6,6 +6,9 @@ import Order from "./Order";
 import { useHistory } from "react-router-dom";
 import { Button, CircularProgress } from "@material-ui/core";
 
+import { Database } from "@three0dev/js-sdk"
+import { env } from "./env"
+
 function Orders() {
   const [{ user }, dispatch] = useStateValue();
   const [loading, setLoading] = useState(false);
@@ -13,25 +16,47 @@ function Orders() {
   const history = useHistory();
 
   useEffect(() => {
+    // if (user) {
+    //   setLoading(true);
+    //   db.collection("users")
+    //     .doc(user?.uid)
+    //     .collection("orders")
+    //     .orderBy("created", "desc")
+    //     .onSnapshot((snapshot) => {
+    //       setLoading(false);
+    //       return setOrders(
+    //         snapshot.docs.map((doc) => ({
+    //           id: doc.id,
+    //           data: doc.data(),
+    //         }))
+    //       );
+    //     });
+    // } else {
+    //   setOrders([]);
+    // }
+    fetchUserOrders();
+  }, [user]);
+
+  const fetchUserOrders = async () => {
+    setLoading(true);
     if (user) {
-      setLoading(true);
-      db.collection("users")
-        .doc(user?.uid)
-        .collection("orders")
-        .orderBy("created", "desc")
-        .onSnapshot((snapshot) => {
-          setLoading(false);
-          return setOrders(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              data: doc.data(),
-            }))
-          );
-        });
+      const orderDocstore = await Database.DocStore(env.ordersDB);
+      const usersOrders = orderDocstore.where((order) => order.uid === user._id);
+      setOrders(
+        usersOrders.map((order) => ({
+          id: order._id,
+          data: {
+            created: order.created,
+            basket: order.basket,
+            amount: order.amount
+          }
+        }))
+      )
     } else {
       setOrders([]);
     }
-  }, [user]);
+    setLoading(false);
+  }
 
   return (
     <div className="orders">
