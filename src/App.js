@@ -15,83 +15,99 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentNew from "./PaymentNew";
 
+import { Auth } from "@three0dev/js-sdk";
+
 const promise = loadStripe(
-    "pk_test_51HPuCnEo7NoTqqusCx3eB7c7qTsapXKw15MshI4XePeBnqOHInBIKiHUtYTVpnwQq53x1jtdUpxDlhGmo7HGVAFl00nRV2jT0Q"
+  "pk_test_51HPuCnEo7NoTqqusCx3eB7c7qTsapXKw15MshI4XePeBnqOHInBIKiHUtYTVpnwQq53x1jtdUpxDlhGmo7HGVAFl00nRV2jT0Q"
 );
 
 function App() {
-    const [{ user }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((authUser) => {
-            if (authUser) {
-                //logged in
-                dispatch({
-                    type: "SET_USER",
-                    user: authUser,
-                });
-            } else {
-                //logged out
-                dispatch({
-                    type: "SET_USER",
-                    user: null,
-                });
-            }
-        });
+  useEffect(() => {
+    // const unsubscribe = auth.onAuthStateChanged((authUser) => {
+    //   if (authUser) {
+    //     //logged in
+    //     dispatch({
+    //       type: "SET_USER",
+    //       user: authUser,
+    //     });
+    //   } else {
+    //     //logged out
+    //     dispatch({
+    //       type: "SET_USER",
+    //       user: null,
+    //     });
+    //   }
+    // });
 
-        return () => {
-            unsubscribe();
-        };
-    }, []);
+    // return () => {
+    //   unsubscribe();
+    // };
 
-    useEffect(() => {
-        if (localStorage.getItem("basket")) {
-            var cart = JSON.parse(localStorage.getItem("basket"));
-            dispatch({
-                type: "SET_BASKET",
-                basket: cart.basket,
-            });
+    if (Auth.isLoggedIn()) {
+      dispatch({
+        type: "SET_USER",
+        user: {
+          _id: Auth.getAccountId()
         }
-    }, []);
+      });
+    } else {
+      dispatch({
+        type: "SET_USER",
+        user: null,
+      });
+    }
+  }, [Auth.isLoggedIn()]);
 
-    return (
-        <ToastProvider>
-            <Router>
-                <div className="app">
-                    <Switch>
-                        <Route path="/orders">
-                            <Header />
-                            <Orders />
-                        </Route>
-                        <Route path="/checkout">
-                            <Header />
-                            <Checkout />
-                        </Route>
-                        <Route path="/login">
-                            <Login />
-                        </Route>
-                        <Route path="/search">
-                            <Header />
-                            <SearchProducts />
-                        </Route>
-                        <Route path="/payment">
-                            <Header />
-                            <Elements stripe={promise}>
-                                <PaymentNew />
-                            </Elements>
-                            {/* <Elements stripe={promise}>
+  useEffect(() => {
+    if (localStorage.getItem("basket")) {
+      var cart = JSON.parse(localStorage.getItem("basket"));
+      dispatch({
+        type: "SET_BASKET",
+        basket: cart.basket,
+      });
+    }
+  }, []);
+
+  return (
+    <ToastProvider>
+      <Router>
+        <div className="app">
+          <Switch>
+            <Route path="/orders">
+              <Header />
+              <Orders />
+            </Route>
+            <Route path="/checkout">
+              <Header />
+              <Checkout />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/search">
+              <Header />
+              <SearchProducts />
+            </Route>
+            <Route path="/payment">
+              <Header />
+              <Elements stripe={promise}>
+                <PaymentNew />
+              </Elements>
+              {/* <Elements stripe={promise}>
                 <Payment />
               </Elements> */}
-                        </Route>
-                        <Route path="/">
-                            <Header />
-                            <Home />
-                        </Route>
-                    </Switch>
-                </div>
-            </Router>
-        </ToastProvider>
-    );
+            </Route>
+            <Route path="/">
+              <Header />
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </ToastProvider>
+  );
 }
 
 export default App;
