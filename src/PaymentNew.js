@@ -119,7 +119,7 @@ function PaymentNew() {
             </div>
             <div>
               <p>Delivery To</p>
-              <h5>{user?.email}</h5>
+              <h5>{user?._id}</h5>
             </div>
           </div>
         </div>
@@ -131,7 +131,7 @@ function PaymentNew() {
             brand="visa"
             number={number}
             cvv="202"
-            holderName={user?.email.split("@")[0]}
+            holderName={user?._id}
             expiration="12/20"
             flipped={false}
           />
