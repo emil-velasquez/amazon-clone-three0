@@ -24,12 +24,6 @@ function Login() {
     }
   }, [Auth.isLoggedIn()]);
 
-  const login = (e) => {
-    if(Auth.isLoggedIn()) {
-      Auth.logout();
-    } else {
-      Auth.login();
-    }
     // e.preventDefault();
     // setShowLoader(true);
     // auth
@@ -51,8 +45,6 @@ function Login() {
     //       setError("");
     //     }, 2000);
     //   });
-  };
-
   // const register = (e) => {
   //   e.preventDefault();
   //   setLoader(true);
@@ -89,10 +81,10 @@ function Login() {
         <h1>Sign in</h1>
         <Button
           variant="contained"
-          onClick={login}
+          onClick={Auth.login()}
           className="login__signInButton"
         >
-          {Auth.isLoggedIn() ? "Logout with Near" : "Login with Near"}
+          Login with Near
         </Button>
         {/* <form>
           <h5>Email</h5>
