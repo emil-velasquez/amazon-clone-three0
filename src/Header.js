@@ -55,18 +55,18 @@ function Header() {
       </form>
 
       <div className="header__nav">
-        <Link to={!Auth.isLoggedIn() && "/login"} className="header__link">
-          <div onClick={Auth.isLoggedIn() && logout} className="header__option">
+        <Link to={!user && "/login"} className="header__link">
+          <div onClick={user && logout} className="header__option">
             <span className="header__optionLineOne">
-              Hello {Auth.isLoggedIn() ? Auth.getAccountId().split(".")[0] : "Guest"}
+              Hello {user ? Auth.getAccountId().split(".")[0] : "Guest"}
             </span>
             <span className="header__optionLineTwo">
-              {Auth.isLoggedIn() ? "Sign Out" : "Sign In"}
+              {user ? "Sign Out" : "Sign In"}
             </span>
           </div>
         </Link>
 
-        <Link to={Auth.isLoggedIn() ? "/orders" : "/login"} className="header__link">
+        <Link to={user ? "/orders" : "/login"} className="header__link">
           <div className="header__option">
             <span className="header__optionLineOne">Returns</span>
             <span className="header__optionLineTwo">& Orders</span>

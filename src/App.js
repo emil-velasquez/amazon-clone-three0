@@ -58,7 +58,7 @@ function App() {
         user: null,
       });
     }
-  }, [Auth.isLoggedIn()]);
+  }, [user]);
 
   useEffect(() => {
     if (localStorage.getItem("basket")) {
