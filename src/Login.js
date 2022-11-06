@@ -24,6 +24,12 @@ function Login() {
     }
   }, [Auth.isLoggedIn()]);
 
+  const login = (e) => {
+    if (Auth.isLoggedIn()) {
+      Auth.logout();
+    } else {
+      Auth.login();
+    }
     // e.preventDefault();
     // setShowLoader(true);
     // auth
@@ -45,6 +51,8 @@ function Login() {
     //       setError("");
     //     }, 2000);
     //   });
+  };
+
   // const register = (e) => {
   //   e.preventDefault();
   //   setLoader(true);
@@ -81,10 +89,10 @@ function Login() {
         <h1>Sign in</h1>
         <Button
           variant="contained"
-          onClick={Auth.login()}
+          onClick={login}
           className="login__signInButton"
         >
-          Login with Near
+          {Auth.isLoggedIn() ? "Logout with Near" : "Login with Near"}
         </Button>
         {/* <form>
           <h5>Email</h5>
@@ -111,7 +119,7 @@ function Login() {
         </form> */}
         <p>
           No need to agree to Amazon's Conditions of Use and Privacy Notice
-          because the app is decentralized. 
+          because the app is decentralized.
         </p>
         {/* <Button
           variant="contained"

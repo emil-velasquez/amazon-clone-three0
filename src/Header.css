@@ -7,7 +7,7 @@
   z-index: 100;
 }
 
-.header__search > button {
+.header__search>button {
   padding: 0;
   border: none;
   outline: none;
@@ -51,11 +51,20 @@
   text-decoration: none;
 }
 
+.MuiCircularProgress-colorPrimary {
+  color: white !important;
+}
+
 .header__option {
   display: flex;
   flex-direction: column;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.header__optionText {
+  display: flex;
+  flex-direction: column;
 }
 
 .header__optionLineOne {

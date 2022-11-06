@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { useStateValue } from "./StateProvider";
-// import { auth } from "./firebase";
+import { auth } from "./firebase";
 import { getTotalItems } from "./reducer";
-import { Button } from "@material-ui/core";
+import { Button, CircularProgress } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 import { Auth } from "@three0dev/js-sdk";
@@ -15,11 +15,11 @@ function Header() {
   const history = useHistory();
   const [{ basket, user }] = useStateValue();
   const [searchTerm, setSearchTerm] = useState("");
+  const [logoutLoading, setLogoutLoading] = useState(false);
 
   const logout = () => {
-    Auth.logout().then(() => {
-      history.push("/login");
-    });
+    setLogoutLoading(true);
+    Auth.logout().then(() => setLogoutLoading(false));
   };
 
   const handleSearch = (e) => {
@@ -58,14 +58,15 @@ function Header() {
 
       <div className="header__nav">
         <Link to={!user && "/login"} className="header__link">
-          <div onClick={user && logout} className="header__option">
-            <span className="header__optionLineOne">
-              Hello {user ? Auth.getAccountId().split(".")[0] : "Guest"}
-            </span>
-            <span className="header__optionLineTwo">
-              {user ? "Sign Out" : "Sign In"}
-            </span>
-          </div>
+          {logoutLoading ? <CircularProgress color="secondary" /> :
+            <div onClick={user && logout} className="header__option">
+              <span className="header__optionLineOne">
+                Hello {user ? Auth.getAccountId().split(".")[0] : "Guest"}
+              </span>
+              <span className="header__optionLineTwo">
+                {user ? "Sign Out" : "Sign In"}
+              </span>
+            </div>}
         </Link>
 
         <Link to={user ? "/orders" : "/login"} className="header__link">
