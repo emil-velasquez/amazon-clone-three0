@@ -6,7 +6,7 @@ import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { useStateValue } from "./StateProvider";
 import { auth } from "./firebase";
 import { getTotalItems } from "./reducer";
-import { Button, CircularProgress } from "@material-ui/core";
+import { Button, CircularProgress, ThemeProvider, createTheme } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 import { Auth } from "@three0dev/js-sdk";
@@ -34,6 +34,17 @@ function Header() {
     }
   };
 
+  const theme = createTheme({
+    components: {
+      // Name of the component
+      Progress: {
+        defaultProps: {
+          color: "#FFF"
+        },
+      },
+    },
+  });
+
   return (
     <nav className="header">
       <Link to="/">
@@ -58,7 +69,10 @@ function Header() {
 
       <div className="header__nav">
         <Link to={!user && "/login"} className="header__link">
-          {logoutLoading ? <CircularProgress color="secondary" /> :
+          {logoutLoading ?
+            <ThemeProvider theme={theme}>
+              <CircularProgress color="primary" />
+            </ThemeProvider> :
             <div onClick={user && logout} className="header__option">
               <span className="header__optionLineOne">
                 Hello {user ? Auth.getAccountId().split(".")[0] : "Guest"}

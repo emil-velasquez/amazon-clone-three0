@@ -70,44 +70,44 @@ function App() {
     }
   }, []);
 
-    return (
-        <ToastProvider>
-            <Router>
-                <div className="app">
-                    <Switch>
-                        <Route path="/orders">
-                            <Header />
-                            <Orders />
-                        </Route>
-                        <Route path="/checkout">
-                            <Header />
-                            <Checkout />
-                        </Route>
-                        <Route path="/login">
-                            <Login />
-                        </Route>
-                        <Route path="/search">
-                            <Header />
-                            <SearchProducts />
-                        </Route>
-                        <Route path="/payment">
-                            <Header />
-                            <Elements stripe={promise}>
-                                <PaymentNew />
-                            </Elements>
-                            {/* <Elements stripe={promise}>
+  return (
+    <ToastProvider>
+      <Router>
+        <div className="app">
+          <Switch>
+            <Route path="/orders">
+              <Header />
+              <Orders />
+            </Route>
+            <Route path="/checkout">
+              <Header />
+              <Checkout />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/search">
+              <Header />
+              <SearchProducts />
+            </Route>
+            <Route path="/payment">
+              <Header />
+              <Elements stripe={promise}>
+                <PaymentNew />
+              </Elements>
+              {/* <Elements stripe={promise}>
                 <Payment />
               </Elements> */}
-                        </Route>
-                        <Route path="/">
-                            <Header />
-                            <Home />
-                        </Route>
-                    </Switch>
-                </div>
-            </Router>
-        </ToastProvider>
-    );
+            </Route>
+            <Route path="/">
+              <Header />
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </ToastProvider>
+  );
 }
 
 export default App;
